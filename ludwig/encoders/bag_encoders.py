@@ -103,7 +103,7 @@ class BagEmbedWeightedEncoder(BagEncoder):
             :param inputs: The inputs fed into the encoder.
                    Shape: [batch x 1], type tf.int32
 
-            :param return: embeddings of shape [batch x embed size], type tf.float32
+            :param return: embeddings of shape [batch x embed size], type torch.float32
         """
         hidden = self.embed_weighted(inputs, training=training, mask=mask)
         hidden = self.fc_stack(hidden, training=training, mask=mask)
