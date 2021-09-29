@@ -76,7 +76,7 @@ class BagEmbedWeightedEncoder(BagEncoder):
             embeddings_on_cpu=embeddings_on_cpu,
             dropout=dropout,
             embedding_initializer=weights_initializer,
-            embedding_regularizer=weights_regularizer
+            # embedding_regularizer=weights_regularizer
         )
 
         logger.debug('  FCStack')
