@@ -23,7 +23,7 @@ import pytest
 from ludwig.constants import NAME
 from ludwig.experiment import experiment_cli
 
-from tests.integration_tests.utils import binary_feature, sequence_feature, \
+from tests.integration_tests.utils import bag_feature, binary_feature, sequence_feature, \
     set_feature, text_feature, vector_feature
 from tests.integration_tests.utils import category_feature
 from tests.integration_tests.utils import generate_data
@@ -178,6 +178,8 @@ def test_feature(input_test_feature, output_test_feature,
          [vector_feature(), vector_feature()]),
         ([vector_feature()],
          [vector_feature(), vector_feature()]),
+        ([bag_feature()],
+         [vector_feature()]),
     ]
 )
 def test_feature_multiple_outputs(input_test_feature, output_test_feature,
