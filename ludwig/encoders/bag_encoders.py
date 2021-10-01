@@ -18,6 +18,7 @@ import logging
 from abc import ABC
 
 import torch
+from typing import List, Optional
 
 from ludwig.encoders.base import Encoder
 from ludwig.utils.registry import Registry, register_default
@@ -40,28 +41,28 @@ class BagEncoder(Encoder, ABC):
 class BagEmbedWeightedEncoder(BagEncoder):
     def __init__(
             self,
-            vocab,
-            embedding_size=50,
-            representation='dense',
-            embeddings_trainable=True,
-            pretrained_embeddings=None,
-            force_embedding_size=False,
-            embeddings_on_cpu=False,
+            vocab: List[str],
+            embedding_size: int = 50,
+            representation: str = 'dense',
+            embeddings_trainable: bool = True,
+            pretrained_embeddings: Optional[str] = None,
+            force_embedding_size: bool = False,
+            embeddings_on_cpu: bool = False,
             fc_layers=None,
-            num_fc_layers=0,
-            fc_size=10,
-            use_bias=True,
-            weights_initializer='xavier_uniform',
-            bias_initializer='zeros',
-            weights_regularizer=None,
-            bias_regularizer=None,
-            activity_regularizer=None,
+            num_fc_layers: int = 0,
+            fc_size: int = 10,
+            use_bias: bool = True,
+            weights_initializer: str = 'xavier_uniform',
+            bias_initializer: str = 'zeros',
+            weights_regularizer: Optional[str] = None,
+            bias_regularizer: Optional[str] = None,
+            activity_regularizer: Optional[str] = None,
             # weights_constraint=None,
             # bias_constraint=None,
-            norm=None,
-            norm_params=None,
-            activation='relu',
-            dropout=0.0,
+            norm: Optional[str] = None,
+            norm_params: Optional[Dict[str, Any]] = None,
+            activation: str = 'relu',
+            dropout: float = 0.0,
             **kwargs
     ):
         super().__init__()
