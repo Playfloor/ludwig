@@ -85,10 +85,16 @@ class ConcatCombiner(LudwigModule):
             logger.debug('  FCStack')
 
             if self.flatten_inputs:
-                shapes = [np.prod(self.input_features[k].output_shape) for k in
+                shapes = [np.prod(self.input_features[k].output_shape()) for k in
                           self.input_features]
             else:
-                shapes = [self.input_features[k].output_shape[-1] for k in
+                # for feat in self.input_features.values():
+                #     print("FOOFOO")
+                #     print(feat)
+                #     print(dir(feat))
+                #     print("FOOFOO")
+
+                shapes = [self.input_features[k].output_shape()[-1] for k in
                           self.input_features]  # output shape not input shape
             flsize = torch.Size([sum(shapes)])[-1]
             self.fc_stack = FCStack(

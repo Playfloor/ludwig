@@ -83,7 +83,7 @@ class BagEmbedWeightedEncoder(BagEncoder):
 
         logger.debug('  FCStack')
         self.fc_stack = FCStack(
-            len(vocab),
+            self.embed_weighted.output_shape[-1],
             layers=fc_layers,
             num_layers=num_fc_layers,
             default_fc_size=fc_size,
@@ -101,18 +101,20 @@ class BagEmbedWeightedEncoder(BagEncoder):
             default_dropout=dropout,
         )
 
-    @property
     def input_shape(self) -> torch.Size:
         return torch.Size([len(self.vocab)])
 
-    def forward(self, inputs, training=None, mask=None):
+    def output_shape(self) -> torch.Size:
+        return self.fc_stack.output_shape
+
+    def forward(self, inputs: torch.Tensor) -> torch.Tensor:
         """
             :param inputs: The inputs fed into the encoder.
                    Shape: [batch x 1], type tf.int32
 
             :param return: embeddings of shape [batch x embed size], type torch.float32
         """
-        hidden = self.embed_weighted(inputs, training=training, mask=mask)
-        hidden = self.fc_stack(hidden, training=training, mask=mask)
+        hidden = self.embed_weighted(inputs)
+        hidden = self.fc_stack(hidden)
 
         return hidden
