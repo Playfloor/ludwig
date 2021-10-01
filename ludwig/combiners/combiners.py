@@ -83,8 +83,16 @@ class ConcatCombiner(LudwigModule):
 
         if fc_layers is not None:
             logger.debug('  FCStack')
+
+            if self.flatten_inputs:
+                shapes = [np.prod(self.input_features[k].output_shape) for k in
+                          self.input_features]
+            else:
+                shapes = [self.input_features[k].output_shape[-1] for k in
+                          self.input_features]  # output shape not input shape
+            flsize = torch.Size([sum(shapes)])[-1]
             self.fc_stack = FCStack(
-                first_layer_input_size=self.input_shape[-1],
+                first_layer_input_size=flsize,
                 layers=fc_layers,
                 num_layers=num_fc_layers,
                 default_fc_size=fc_size,
@@ -715,7 +723,7 @@ class TabTransformerCombiner(Module):
             embedded_i_f_names = tf.expand_dims(embedded_i_f_names, axis=0)
             embedded_i_f_names = tf.tile(embedded_i_f_names, [batch_size, 1, 1])
             if self.embed_input_feature_name == 'add':
-               hidden = hidden + embedded_i_f_names
+                hidden = hidden + embedded_i_f_names
             else:
                 hidden = tf.concat([hidden, embedded_i_f_names], axis=-1)
 

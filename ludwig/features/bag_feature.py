@@ -118,7 +118,7 @@ class BagInputFeature(BagFeatureMixin, InputFeature):
         else:
             self.encoder_obj = self.initialize_encoder(feature)
 
-    def call(self, inputs, training=None, mask=None):
+    def forward(self, inputs, training=None, mask=None):
         assert isinstance(inputs, torch.Tensor)
         # assert inputs.dtype == tf.bool # this fails
 

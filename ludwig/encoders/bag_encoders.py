@@ -17,6 +17,8 @@
 import logging
 from abc import ABC
 
+import torch
+
 from ludwig.encoders.base import Encoder
 from ludwig.utils.registry import Registry, register_default
 from ludwig.modules.embedding_modules import EmbedWeighted
@@ -49,7 +51,7 @@ class BagEmbedWeightedEncoder(BagEncoder):
             num_fc_layers=0,
             fc_size=10,
             use_bias=True,
-            weights_initializer='glorot_uniform',
+            weights_initializer='xavier_uniform',
             bias_initializer='zeros',
             weights_regularizer=None,
             bias_regularizer=None,
@@ -81,6 +83,7 @@ class BagEmbedWeightedEncoder(BagEncoder):
 
         logger.debug('  FCStack')
         self.fc_stack = FCStack(
+            len(vocab),
             layers=fc_layers,
             num_layers=num_fc_layers,
             default_fc_size=fc_size,
@@ -98,7 +101,11 @@ class BagEmbedWeightedEncoder(BagEncoder):
             default_dropout=dropout,
         )
 
-    def call(self, inputs, training=None, mask=None):
+    @property
+    def input_shape(self) -> torch.Size:
+        return torch.Size([len(self.vocab)])
+
+    def forward(self, inputs, training=None, mask=None):
         """
             :param inputs: The inputs fed into the encoder.
                    Shape: [batch x 1], type tf.int32

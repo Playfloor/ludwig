@@ -49,6 +49,7 @@ def run_experiment(input_features, output_features, **kwargs):
         # This if is necessary so that the caller can call with
         # config_file (and not config)
         config = {
+            'backend': 'local',
             'input_features': input_features,
             'output_features': output_features,
             'combiner': {
