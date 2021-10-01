@@ -116,9 +116,6 @@ class LudwigModule(Module):
 
     @lru_cache(maxsize=1)
     def _compute_output_shape(self) -> torch.Size:
-        print("!!!!!!!!!!!!!!!!!!!")
-        print(self)
-        print("!!!!!!!!!!!!!!!!!!!")
         output_tensor = self.forward(torch.rand(2, *self.input_shape,
                                                 dtype=self.input_dtype))
         return output_tensor.size()[1:]

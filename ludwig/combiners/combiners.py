@@ -88,12 +88,6 @@ class ConcatCombiner(LudwigModule):
                 shapes = [np.prod(self.input_features[k].output_shape()) for k in
                           self.input_features]
             else:
-                # for feat in self.input_features.values():
-                #     print("FOOFOO")
-                #     print(feat)
-                #     print(dir(feat))
-                #     print("FOOFOO")
-
                 shapes = [self.input_features[k].output_shape()[-1] for k in
                           self.input_features]  # output shape not input shape
             flsize = torch.Size([sum(shapes)])[-1]
